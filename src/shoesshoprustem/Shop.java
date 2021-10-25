@@ -5,66 +5,73 @@
  */
 package shoesshoprustem;
 
-import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.Scanner;
+import java.util.Calendar;
 import shopclasses.Client;
 import shopclasses.History;
 import shopclasses.Model;
 
-/**
- *
- * @author ruste
- */
+
+
 public class Shop {
+    float opa = 0;
     Scanner scanner = new Scanner(System.in);
-    private Model[] model = new Model[10];
+    private Model[] models = new Model[10];
     private Client[] client = new Client[10];
     private History[] histories = new History[10];
-    Calendar c = new GregorianCalendar(); 
-    public void run() {
+  
+    double shopStonks = 0;
+    Calendar c = new GregorianCalendar();
+    public Shop() {
+
+    }
+    public void run(){
         String repeat = "r";
         do{
-            System.out.println("0: Выход из программы");
-            System.out.println("1: Добавить модель");
-            System.out.println("2: Список продаваемых моделей");
-            System.out.println("3: Добавить покупателя");
-            System.out.println("4: Список зарегистрированных покупателей");
-            System.out.println("5: Покупка покупателем обуви");
-            System.out.println("6: Доход магазина за всё время работы");
+            System.out.println("Задача - 0: Выход из программы");
+            System.out.println("Задача - 1: Добавить модель");
+            System.out.println("Задача - 2: Список моделей");
+            System.out.println("Задача - 3: Добавить инфо о покупателе");
+            System.out.println("Задача - 4: Инфо о покупателе");
+            System.out.println("Задача - 5: Покупка покупателем обуви");
+            System.out.println("Задача - 6: Доход магазина за всё время работы");
+            System.out.printf("~~~ Поменять номер задачи ~~~ = ");
             int task = scanner.nextInt();scanner.nextLine();
             switch (task) {
                 case 0:
-                    repeat = "q";
-                    System.out.println("Have a nice day, bye!");
+                    repeat = "d";
+                    System.out.println("Хорошего дня!");
                     break;
                 case 1:
-                    System.out.println("~~~~~ Добавить модель ~~~~~");
-                    for (int i = 0; i < model.length; i++) {
-                        if(model[i] == null){
-                            model[i] = addModel();
+                    System.out.println("-- Добавить модель --");
+                    for (int i = 0; i < models.length; i++) {
+                        if(models[i] == null){
+                            models[i] = addModel();
+
                             break;
                         }
                     }
                     break;
                 case 2:
-                  System.out.println("~~~~~ Список продаваемых моделей ~~~~~");
-                    for (int i = 0; i < model.length; i++) {
-                        if(model[i] != null){
-                            System.out.println(model[i].toString());
+                  System.out.println("-- Список моделей --");
+                    for (int i = 0; i < models.length; i++) {
+                        if(models[i] != null){
+                            System.out.println(models[i].toString());
                         }
                     }
                     break;
                 case 3:
-                    System.out.println("~~~~~ Добавить покупателя ~~~~~");
+                    System.out.println("-- Добавить клиента --");
                     for (int i = 0; i < client.length; i++) {
                         if(client[i] == null){
                             client[i] = addClient();
+ 
                             break;
                         }
                     }
                 case 4:
-                    System.out.println("~~~~~ Список зарегистрированных покупателей ~~~~~ ");
+                    System.out.println("-- Инфо о покупателе --");
                     for (int i = 0; i < client.length; i++) {
                         if(client[i] != null){
                             System.out.println(client[i].toString());
@@ -72,7 +79,7 @@ public class Shop {
                     }
                     break;
                 case 5:
-                    System.out.println("~~~~~ Покупка покупателем обуви ~~~~~");
+                    System.out.println("-- Предметы --");
                     for (int i = 0; i < client.length; i++) {
                         if(histories[i] == null){
                             histories[i] = addHistory();
@@ -81,18 +88,10 @@ public class Shop {
                     }
                 break;
                 case 6:
-                    int n = 0;
-                    System.out.println("~~~~~ Доход магазина за всё время работы ~~~~~");
-                    for (int i = 0; i < histories.length; i++) {
-                        if(histories[i] != null){
-                            System.out.println(histories[i].toString());
-                            System.out.println(" "+histories[i].getModel().getModelName()
-                                +" "+histories[i].getClient().getName()
-                                +" "+ histories[i].getClient().getSurname());
-                            n++;
-                        }
-    
-                    }    
+                    System.out.println("-- Доход магазина --");
+                    System.out.println(opa);
+                default:
+                    System.out.println("Измените номер списка!");;
             }
         }while ("r".equals(repeat));
     }
@@ -104,10 +103,14 @@ public class Shop {
         model.setModelSize(scanner.nextLine());
         System.out.print("Цена модели: ");
         model.setPrice(scanner.nextDouble());scanner.nextLine();
-        System.out.print("Название фирмы: ");
+        System.out.print("Название модели: ");
         model.setModelFirm(scanner.nextLine()); 
-        return model;
+
         
+        
+        
+       
+        return model;
     }
     private Client addClient(){
         Client client = new Client();
@@ -115,25 +118,24 @@ public class Shop {
         client.setName(scanner.nextLine());
         System.out.print("Фамилия покупателя: ");
         client.setSurname(scanner.nextLine());
-        System.out.print("Кол-во покупателей: ");
+        System.out.print("Число покупателей: ");
         client.setMobile(scanner.nextLine());
-        System.out.print("Платёж клиента: ");
+        System.out.print("Деньги покупателя: ");
         client.setMoney(scanner.nextDouble());
-        System.out.printf("Поменять номер =");
         return client;
-        
     }
-    
+
     private History addHistory() {
         History history = new History();
-        
-        System.out.println("Список моделей: ");
-        for (int i = 0; i < model.length; i++) {
-            if(model[i] != null){
-                System.out.println(i+1+" "+model[i].toString());
+       
+
+        System.out.println("Список предметов: ");
+        for (int i = 0; i < models.length; i++) {
+            if(models[i] != null){
+                System.out.println(i+1+" "+models[i].toString());
             }
         }
-        System.out.print("Поменять/Изменить модель: ");
+        System.out.print("Выберите товар: ");
         int numberModel = scanner.nextInt(); scanner.nextLine();
         System.out.print("Будет продано -> ");
         for (int i = 0; i < client.length; i++) {
@@ -141,22 +143,21 @@ public class Shop {
                 System.out.println(i+1+" "+client[i].toString());
             }
         }
-        System.out.println("Кто покупает эту модель: ");
+        System.out.println("Кто покупает этот товар: ");
         int numberClient = scanner.nextInt();scanner.nextLine();
-        history.setModel(model[numberModel - 1]);
+        history.setModel(models[numberModel - 1]);
         history.setClient(client[numberClient - 1]);
            Calendar c = new GregorianCalendar();
-           double MMoney = model [numberClient - 1].getPrice();
-           double CMoney = client[numberClient - 1].getMoney();
-           double finMoney = 0;
-                   if(CMoney >=MMoney){
-                       finMoney = CMoney - MMoney;
+           double MMoney = models [numberClient - 1].getPrice();
+           double CMoney = client[numberClient - 1].getMoney(); 
+                if(CMoney >=MMoney){
+                client [numberClient-1].setMoney(client[numberClient-1].getMoney()-models[numberClient-1].getPrice());
+                opa+=models[numberClient-1].getPrice();
                    }else{
-                       System.out.println("//Извините, у вас недостаточно средств//");
+                       System.out.println("Недостаточно средств на счету!");
                        
                    }
-                   history.getClient().setMoney(finMoney);
-           history.setGivendate(c.getTime());
+            
         return history;
-    }   
+    }
 }
